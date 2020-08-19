@@ -7,16 +7,16 @@
             v-bind:class="['tab-button', { active: activetab === tab }]"
             v-on:click="activetab = tab"
         >{{ tab }}</button>-->
-        <tabselect v-bind:tabs="tabs" v-bind:select="(s) => (activetab = s)" />
+        <tabselect v-bind:tabs="tabs" v-bind:select="s => (activetab = s)" />
         <div v-show="activetab === 'message'" class="tab">
             <tabselect
                 v-bind:tabs="messages.tabs"
-                v-bind:select="(s) => (messages.curtab = s)"
+                v-bind:select="s => (messages.curtab = s)"
             />
             <div v-show="messages.curtab === 'new'">
                 <sendpanel
                     v-bind:connection="connection"
-                    v-bind:send="(msg) => send(msg)"
+                    v-bind:send="msg => send(msg)"
                 />
             </div>
             <div v-show="messages.curtab === 'send'">
@@ -68,12 +68,12 @@ export default Vue.extend({
                 curtab: "new",
                 tabs: ["new", "send", "received"],
                 send: {
-                    other: [],
+                    other: []
                 },
                 received: {
-                    other: [],
-                },
-            },
+                    other: []
+                }
+            }
         };
     },
     methods: {
@@ -129,13 +129,13 @@ export default Vue.extend({
                 alert("not connected!");
                 console.log("not connected when send " + str);
             }
-        },
+        }
     },
     components: {
         tabselect,
         messages,
-        sendpanel,
-    },
+        sendpanel
+    }
 });
 </script>
 

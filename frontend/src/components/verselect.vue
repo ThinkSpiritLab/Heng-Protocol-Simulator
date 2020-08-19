@@ -30,14 +30,14 @@ export default Vue.extend({
     props: ["tabs", "select"],
     data: function () {
         return {
-            activetab: "",
+            activetab: ""
         };
     },
     methods: {
         click: function (tab) {
             this.activetab = tab;
             this.select(tab);
-        },
+        }
     },
     computed: {
         isarray: function () {
@@ -47,8 +47,8 @@ export default Vue.extend({
             //         JSON.stringify(this.tabs instanceof Array)
             // );
             return this.tabs instanceof Array;
-        },
-    },
+        }
+    }
 });
 </script>
 

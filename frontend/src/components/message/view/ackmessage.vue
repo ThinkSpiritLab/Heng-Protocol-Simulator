@@ -8,6 +8,6 @@
 import Vue from "vue";
 export default Vue.extend({
     name: "ackmessage",
-    props: ["message"],
+    props: ["message"]
 });
 </script>

@@ -77,13 +77,13 @@ export default Vue.extend({
     name: "hardware",
     props: {
         title: String,
-        status: Object,
+        status: Object
     },
     data: function () {
         return {
             nexttime: 0,
-            nextval: 0,
+            nextval: 0
         };
-    },
+    }
 });
 </script>

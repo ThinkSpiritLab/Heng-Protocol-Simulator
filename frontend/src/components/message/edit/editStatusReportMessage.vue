@@ -1,10 +1,10 @@
 <template>
     <div class="column">
-        <tabselect v-bind:tabs="tabs" v-bind:select="(s) => (activetab = s)" />
+        <tabselect v-bind:tabs="tabs" v-bind:select="s => (activetab = s)" />
         <div v-show="activetab === 'Hardware'" class="pannel">
             <tabselect
                 v-bind:tabs="status.tabs"
-                v-bind:select="(s) => (status.activetab = s)"
+                v-bind:select="s => (status.activetab = s)"
             />
             <div v-for="tab in status.tabs" v-bind:key="tab">
                 <keep-alive>
@@ -12,15 +12,15 @@
                         v-show="tab === status.activetab"
                         v-bind:title="tab"
                         v-bind:status="status[tab]"
-                        v-bind:callback="(s) => (status[tab] = s)"
-                        v-on:add-recent="(s) => status[tab].recent.push(s)"
+                        v-bind:callback="s => (status[tab] = s)"
+                        v-on:add-recent="s => status[tab].recent.push(s)"
                         v-on:delete-recent="
-                            (s) => status[tab].recent.splice(s, 1)
+                            s => status[tab].recent.splice(s, 1)
                         "
                         v-on:set-recent="
                             (pos, val) => Vue.set(status[tab].recent, pos, val)
                         "
-                        v-on:set="(s) => (status[tab].percentage = s)"
+                        v-on:set="s => (status[tab].percentage = s)"
                         v-bind:class="['pannel', tab]"
                     />
                 </keep-alive>
@@ -185,35 +185,35 @@ export default Vue.extend({
                 tabs: ["cpu", "memory"],
                 cpu: {
                     percentage: 0,
-                    recent: [],
+                    recent: []
                 },
                 memory: {
                     percentage: 0,
-                    recent: [],
-                },
+                    recent: []
+                }
             },
             tasks: {
                 preparing: {
                     downloading: 0,
-                    readingCache: 0,
+                    readingCache: 0
                 },
                 pending: 0,
                 running: 0,
                 finished: 0,
-                total: 0,
+                total: 0
             },
             time: {
                 time: 0,
-                nextReportTime: 0,
+                nextReportTime: 0
             },
             tabs: ["Hardware", "Tasks", "Interval"],
-            activetab: "Hardware",
+            activetab: "Hardware"
         };
     },
     methods: {
         update: function () {
             this.$emit("update", this.body);
-        },
+        }
     },
     computed: {
         totalTask: function () {
@@ -231,15 +231,15 @@ export default Vue.extend({
                 nextReportTime: this.time.nextReportTime,
                 hardware: {
                     cpu: this.status.cpu,
-                    memory: this.status.memory,
+                    memory: this.status.memory
                 },
-                task: this.tasks,
+                task: this.tasks
             };
-        },
+        }
     },
     components: {
         tabselect,
-        hardware,
-    },
+        hardware
+    }
 });
 </script>

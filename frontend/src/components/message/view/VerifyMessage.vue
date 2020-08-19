@@ -22,6 +22,6 @@
 import Vue from "vue";
 export default Vue.extend({
     name: "verifyMessage",
-    props: ["message"],
+    props: ["message"]
 });
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <h1>模拟器</h1>
-        <tabselect v-bind:tabs="tabs" v-bind:select="(s) => (activetab = s)" />
+        <tabselect v-bind:tabs="tabs" v-bind:select="s => (activetab = s)" />
         <keep-alive v-if="activetab === 'judger'">
             <judgersimulator v-bind:class="['tab', 'judger']" />
         </keep-alive>
@@ -19,14 +19,14 @@ export default {
     name: "App",
     components: {
         judgersimulator,
-        tabselect,
+        tabselect
     },
     data: function () {
         return {
             tabs: ["judger", "controller"],
-            activetab: "judger",
+            activetab: "judger"
         };
-    },
+    }
 };
 </script>
 

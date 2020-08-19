@@ -4,7 +4,7 @@
             <p>ContextID</p>
             <verselect
                 v-bind:tabs="Object.keys(messages)"
-                v-bind:select="(s) => (curid = s)"
+                v-bind:select="s => (curid = s)"
             />
         </div>
         <div
@@ -34,10 +34,10 @@ export default Vue.extend({
     props: ["messages"],
     data: function () {
         return {
-            curid: "other",
+            curid: "other"
         };
     },
-    components: { verselect, basicmessage },
+    components: { verselect, basicmessage }
 });
 </script>
 <style scoped>

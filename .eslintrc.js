@@ -20,7 +20,9 @@ module.exports = {
         "linebreak-style": ["error", "unix"],
         quotes: ["error", "double"],
         semi: ["error", "always"],
-        // "no-unused-vars": "off",
-        // "@typescript-eslint/no-unused-vars": ["warn"]
+        "comma-dangle": ["error", "always"],
+        "keyword-spacing": ["error", { before: true, after: true }],
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": ["warn"],
     },
 };

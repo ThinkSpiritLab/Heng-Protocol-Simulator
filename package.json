@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "workspaces": [
+    "frontend/*"
+  ],
+  "dependencies": {
+    "typescript": "^3.9.7"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^3.7.0",
+    "@typescript-eslint/parser": "^3.7.0",
+    "eslint": "^7.5.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "prettier": "^2.0.5"
+  },
+  "scripts": {
+    "ci-eslint": "eslint --ext .ts,.vue frontend",
+    "ci-format": "prettier -c frontend"
+  }
+}

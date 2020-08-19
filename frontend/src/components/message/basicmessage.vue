@@ -55,7 +55,7 @@ export default Vue.extend({
                 34: "JudgeResult",
                 35: "JudegState",
                 126: "Shutdown",
-                127: "Error",
+                127: "Error"
             };
             if (
                 this.message.type != undefined &&
@@ -65,9 +65,9 @@ export default Vue.extend({
             } else {
                 return "Unknown";
             }
-        },
+        }
     },
-    components: { ackmessage, /*verifyMessage,*/ GeneralMessage },
+    components: { ackmessage, /*verifyMessage,*/ GeneralMessage }
 });
 </script>
 

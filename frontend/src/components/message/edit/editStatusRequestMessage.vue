@@ -37,14 +37,14 @@ export default Vue.extend({
         return {
             body: {
                 setReportInterval: undefined,
-                immediate: false,
-            },
+                immediate: false
+            }
         };
     },
     methods: {
         update: function () {
             this.$emit("update", JSON.parse(JSON.stringify(this.body)));
-        },
-    },
+        }
+    }
 });
 </script>

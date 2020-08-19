@@ -48,7 +48,7 @@ export default Vue.extend({
     props: ["obj", "maxlength", "foldLevel"],
     data: function () {
         return {
-            inDetail: this.foldLevel != 0,
+            inDetail: this.foldLevel != 0
         };
     },
     methods: {
@@ -73,7 +73,7 @@ export default Vue.extend({
                 alert("复制了");
             }
             document.body.removeChild(inputarea);
-        },
-    },
+        }
+    }
 });
 </script>

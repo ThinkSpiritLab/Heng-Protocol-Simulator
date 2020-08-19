@@ -11,17 +11,17 @@ export default Vue.extend({
     name: "editRawMessage",
     data: function () {
         return {
-            msg: "{}",
+            msg: "{}"
         };
     },
     methods: {
         update: function () {
             this.$emit("update", this.msg);
-        },
+        }
         // click: function () {
         //     this.$emit("send", this.msg);
         // },
-    },
+    }
 });
 </script>
 

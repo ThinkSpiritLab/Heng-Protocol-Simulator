@@ -5,7 +5,7 @@
                 <a>消息类型选择</a>
                 <verselect
                     v-bind:tabs="messagetypes"
-                    v-bind:select="(s) => (messagetype = s)"
+                    v-bind:select="s => (messagetype = s)"
                 />
             </div>
             <div class="tool-pannel pannel grow">
@@ -104,9 +104,9 @@ export default Vue.extend({
                 judgeResult: 34,
                 judgeState: 35,
                 shutdown: 126,
-                error: 127,
+                error: 127
             },
-            message: "",
+            message: ""
         };
     },
     methods: {
@@ -120,7 +120,7 @@ export default Vue.extend({
                 body:
                     msg !== undefined
                         ? JSON.parse(JSON.stringify(msg))
-                        : undefined,
+                        : undefined
             };
         },
         sendraw: function (rawmessage) {
@@ -130,7 +130,7 @@ export default Vue.extend({
             this.send({
                 contextid: this.contextid,
                 type: this.messagetype,
-                body: body,
+                body: body
             });
         },
         copy: function (obj) {
@@ -147,7 +147,7 @@ export default Vue.extend({
                 alert("复制了");
             }
             document.body.removeChild(inputarea);
-        },
+        }
     },
     components: {
         verselect,
@@ -157,8 +157,8 @@ export default Vue.extend({
         editJudgerInfoMessage,
         editStatusReportMessage,
         editStatusRequestMessage,
-        editJudgeRequestMessage,
-    },
+        editJudgeRequestMessage
+    }
 });
 </script>
 <style>

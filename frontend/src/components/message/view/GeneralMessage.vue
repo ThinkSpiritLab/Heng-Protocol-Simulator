@@ -16,6 +16,6 @@ import generalMessageObj from "./GeneralMessageObj.vue";
 export default Vue.extend({
     name: "verifyMessage",
     props: ["message", "maxlength"],
-    components: { generalMessageObj },
+    components: { generalMessageObj }
 });
 </script>

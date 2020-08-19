@@ -64,7 +64,7 @@ export default Vue.extend({
             software: "JudgerSimuliater",
             ackey: "e170ef7d7cf46092d0",
             signature: "",
-            secrectKey: "e170ef7d7cf46092d0",
+            secrectKey: "e170ef7d7cf46092d0"
         };
     },
     methods: {
@@ -85,7 +85,7 @@ export default Vue.extend({
             this.signature = "7def6260-cf55-11ea-87d0-0242ac130003";
             let jsonStr = JSON.stringify(this.body);
             this.signature = this.sign(jsonStr, this.secrectKey);
-        },
+        }
     },
     computed: {
         body: function () {
@@ -96,9 +96,9 @@ export default Vue.extend({
                 software:
                     this.software == undefined ? undefined : this.software,
                 ackey: this.ackey,
-                signature: this.signature,
+                signature: this.signature
             };
-        },
-    },
+        }
+    }
 });
 </script>

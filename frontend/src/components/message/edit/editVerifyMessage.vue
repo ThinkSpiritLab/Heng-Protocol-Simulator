@@ -3,7 +3,7 @@
         <a>Step</a>
         <tabselect
             v-bind:tabs="Object.keys(verifyPayload)"
-            v-bind:select="(s) => (curmod = s)"
+            v-bind:select="s => (curmod = s)"
         ></tabselect>
         <div
             v-for="mod in Object.keys(verifyPayload)"
@@ -55,25 +55,25 @@ export default Vue.extend({
             verifyPayload: {
                 1: {
                     keyNumber: 0,
-                    encrypedRandNumber1: "",
+                    encrypedRandNumber1: ""
                 },
                 2: {
                     decryptedRandNumber1: "",
-                    encrypedRandNumber2: "",
+                    encrypedRandNumber2: ""
                 },
                 3: {
-                    decryptedRandNumber2: "",
+                    decryptedRandNumber2: ""
                 },
                 4: {
                     judgerID: "",
-                    connectionToken: "",
-                },
+                    connectionToken: ""
+                }
             },
             public_key: "pem",
             private_key: "crt",
             cleartext: "ctxt",
             encrypted: "etxt",
-            curmod: 1,
+            curmod: 1
         };
     },
     computed: {},
@@ -119,7 +119,7 @@ export default Vue.extend({
                 pembin,
                 {
                     name: "RSA-OAEP",
-                    hash: "SHA-256",
+                    hash: "SHA-256"
                 },
                 true,
                 ["encrypt"]
@@ -139,7 +139,7 @@ export default Vue.extend({
                 binaryDer,
                 {
                     name: "RSA-OAEP",
-                    hash: "SHA-256",
+                    hash: "SHA-256"
                 },
                 true,
                 ["decrypt"]
@@ -206,7 +206,7 @@ export default Vue.extend({
                     name: "RSA-OAEP",
                     modulusLength: 4096,
                     publicExponent: new Uint8Array([1, 0, 1]),
-                    hash: "SHA-256",
+                    hash: "SHA-256"
                 },
                 true,
                 ["encrypt", "decrypt"]
@@ -218,9 +218,9 @@ export default Vue.extend({
             console.log(pub_key);
             this.public_key = pub_key;
             // console.log("TODO");
-        },
+        }
     },
-    components: { tabselect },
+    components: { tabselect }
 });
 //window.crypto.subtle.encrypt({name:"RSA-OAEP"},, (new TextEncoder().encode("123")))
 </script>

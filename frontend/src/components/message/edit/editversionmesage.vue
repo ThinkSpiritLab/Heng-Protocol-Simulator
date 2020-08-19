@@ -21,13 +21,13 @@ export default Vue.extend({
     data: function () {
         return {
             version: [],
-            nextval: "0.0.1",
+            nextval: "0.0.1"
         };
     },
     methods: {
         update: function () {
             this.$emit("update", this.version);
-        },
-    },
+        }
+    }
 });
 </script>

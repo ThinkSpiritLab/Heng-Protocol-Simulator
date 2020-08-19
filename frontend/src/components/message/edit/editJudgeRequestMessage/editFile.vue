@@ -90,7 +90,7 @@ export default Vue.extend({
                 // fileClone["authorization"] = "";
                 Object.assign(fileClone, {
                     url: "",
-                    authorization: "",
+                    authorization: ""
                 });
             } else {
                 delete fileClone.url;
@@ -121,12 +121,12 @@ export default Vue.extend({
                 Object.assign(fileClone, { hashsum: "" });
             }
             this.update(fileClone);
-        },
+        }
     },
     computed: {
         hasContent: function () {
             return this.file.content !== undefined;
-        },
-    },
+        }
+    }
 });
 </script>
