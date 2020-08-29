@@ -56,6 +56,11 @@
                         v-on:send="sendmessage"
                         v-on:update="updatebody"
                     />
+                    <schema-test
+                        v-show="messagetype === 128"
+                        v-bind:title="'格式测试'"
+                        v-on:update="updatebody"
+                    />
                 </div>
                 <div>
                     <button v-on:click="sendraw(message)" class="send-btn">
@@ -63,7 +68,7 @@
                     </button>
                 </div>
             </div>
-            <div class="tool-pannel pannel" style="max-width: 25%;">
+            <div class="tool-pannel pannel" style="max-width: 25%">
                 <div class="raw-view">
                     <p>{{ JSON.stringify(message) }}</p>
                 </div>
@@ -85,6 +90,7 @@ import editJudgerInfoMessage from "./edit/editJudgerInfoMessage.vue";
 import editStatusReportMessage from "./edit/editStatusReportMessage.vue";
 import editStatusRequestMessage from "./edit/editStatusRequestMessage.vue";
 import editJudgeRequestMessage from "./edit/editJudgeRequestMessage/editJudgeRequestMessage.vue";
+import schemaTest from "./edit/schemaTest.vue";
 export default Vue.extend({
     name: "sendpanel",
     props: ["connection", "send"],
@@ -104,7 +110,8 @@ export default Vue.extend({
                 judgeResult: 34,
                 judgeState: 35,
                 shutdown: 126,
-                error: 127
+                error: 127,
+                schemaTest: 128
             },
             message: ""
         };
@@ -157,7 +164,8 @@ export default Vue.extend({
         editJudgerInfoMessage,
         editStatusReportMessage,
         editStatusRequestMessage,
-        editJudgeRequestMessage
+        editJudgeRequestMessage,
+        schemaTest
     }
 });
 </script>
