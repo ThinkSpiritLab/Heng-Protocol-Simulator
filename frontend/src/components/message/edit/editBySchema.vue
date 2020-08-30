@@ -15,6 +15,7 @@
                         <edit-by-schema
                             v-bind:schema="schema.member"
                             v-bind:value="obj"
+                            v-bind:debug="debug"
                             v-on:update="val => update(index, val)"
                         />
                         <div class="edit-button" v-on:click="remove(index)">
@@ -26,6 +27,7 @@
                     <edit-by-schema
                         ref="nextEdit"
                         v-bind:schema="schema.member"
+                        v-bind:debug="debug"
                         v-on:update="val => (next = val)"
                     />
                     <div class="edit-button" v-on:click="push()">
@@ -41,6 +43,7 @@
                         <edit-by-schema
                             v-show="propsEnabled[key]"
                             v-bind:schema="obj"
+                            v-bind:debug="debug"
                             v-on:update="val => update(key, val)"
                         />
                         <div v-show="!propsEnabled[key]"></div>
@@ -68,7 +71,12 @@
                         event => updateAll(parseInt(event.target.value))
                     "
                 />
-                <input v-else v-bind:value="new Date(data).toISOString()" />
+                <input
+                    v-else-if="this.type == 'timestring'"
+                    v-bind:value="data"
+                    v-on:input="event => updateAll(event.target.value)"
+                />
+                <div v-else>Tail</div>
                 <div v-if="this.type == 'number'" class="edit-row no-border">
                     <div
                         v-for="step in (
@@ -91,7 +99,7 @@
                     </div>
                 </div>
                 <div
-                    v-if="this.type == 'timestamp' || this.type == 'timestring'"
+                    v-else-if="this.type == 'timestamp'"
                     class="edit-row no-border"
                 >
                     <div
@@ -115,8 +123,51 @@
                     </div>
                 </div>
                 <div
-                    v-if="this.type == 'timestamp' || this.type == 'timestring'"
+                    v-else-if="this.type == 'timestring'"
+                    class="edit-row no-border"
+                >
+                    <div
+                        v-for="(step,name) in (timestep
+                    )"
+                        v-bind:key="step"
+                        class="edit-column"
+                    >
+                        <div
+                            v-on:click="
+                                updateAll(
+                                    new Date(
+                                        Date.parse(data) + step
+                                    ).toISOString()
+                                )
+                            "
+                            class="tool-button"
+                        >
+                            +{{ name }}
+                        </div>
+                        <div
+                            v-on:click="
+                                updateAll(
+                                    new Date(
+                                        Date.parse(data) - step
+                                    ).toISOString()
+                                )
+                            "
+                            class="tool-button"
+                        >
+                            -{{ name }}
+                        </div>
+                    </div>
+                </div>
+                <div
+                    v-if="this.type == 'timestamp'"
                     v-on:click="updateAll(Date.now())"
+                    class="tool-button"
+                >
+                    CurTime
+                </div>
+                <div
+                    v-else-if="this.type == 'timestring'"
+                    v-on:click="updateAll(new Date().toISOString())"
                     class="tool-button"
                 >
                     CurTime
@@ -131,7 +182,7 @@
 import Vue from "vue";
 export default Vue.extend({
     name: "editBySchema",
-    props: ["schema", "title", "value"],
+    props: ["schema", "title", "value", "debug"],
     data: function () {
         return {
             propsEnabled: {},
@@ -147,37 +198,49 @@ export default Vue.extend({
             }
         };
     },
-    mounted: function () {
-        if (this.type == "object") {
-            for (let key in this.schema.properties) {
-                // this.propsEnabled[key] = true;
-                Vue.set(this.propsEnabled, key, true);
-            }
-            console.log(
-                "editBySchema mounted,propsEnabled:" +
-                    JSON.stringify(this.propsEnabled)
-            );
-        } else if (this.type == "array") {
-            this.data = new Array();
-            this.next = this.$refs.nextEdit.getBody();
-        } else if (this.type == "string") {
-            this.data = new String();
-        } else if (
-            this.type == "number" ||
-            this.type == "timestamp" ||
-            this.type == "timestring"
-        ) {
-            this.data = 0;
-        }
+    created: function () {
         if (this.value) {
+            if (this.debug > 4) {
+                console.log(
+                    "editBySchema mounted,valueSet:" +
+                        JSON.stringify(this.value)
+                );
+            }
             this.data = this.value;
         } else {
+            if (this.type == "object") {
+                for (let key in this.schema.properties) {
+                    // this.propsEnabled[key] = true;
+                    Vue.set(this.propsEnabled, key, true);
+                }
+                if (this.debug > 4) {
+                    console.log(
+                        "editBySchema mounted,propsEnabled:" +
+                            JSON.stringify(this.propsEnabled)
+                    );
+                }
+            } else if (this.type == "array") {
+                this.next = this.getDefaultValue(this.schema.member);
+                if (this.debug > 4) {
+                    console.log(
+                        "editBySchema mounted,getNextData:" +
+                            JSON.stringify(this.next)
+                    );
+                }
+            }
+            this.data = this.getDefaultValue(this.schema);
             this.transmit();
         }
-        console.log("editBySchema mounted,title" + JSON.stringify(this.title));
-        console.log(
-            "editBySchema mounted,myTitle" + JSON.stringify(this.myTitle)
-        );
+        if (this.debug > 3) {
+            if (this.debug > 4) {
+                console.log(
+                    "editBySchema mounted,title " + JSON.stringify(this.title)
+                );
+            }
+            console.log(
+                "editBySchema mounted,myTitle " + JSON.stringify(this.myTitle)
+            );
+        }
     },
     methods: {
         push: function () {
@@ -194,50 +257,107 @@ export default Vue.extend({
         },
         update: function (key, val) {
             this.data[key] = val;
-            console.log("editBySchema update,key" + JSON.stringify(key));
-            console.log("editBySchema update,value" + JSON.stringify(val));
-            console.log(
-                "editBySchema update,result" + JSON.stringify(this.data[key])
-            );
+            if (this.debug > 3) {
+                console.log("editBySchema update,key " + JSON.stringify(key));
+                console.log("editBySchema update,value " + JSON.stringify(val));
+                if (this.debug > 4) {
+                    console.log(
+                        "editBySchema update,result " +
+                            JSON.stringify(this.data[key])
+                    );
+                }
+            }
             this.transmit();
         },
         updateAll: function (obj) {
             this.data = obj;
             this.transmit();
         },
-        getBody: function () {
-            if (this.type !== "object") {
-                if (this.type === "timestring") {
-                    return new Date(this.data).toISOString();
-                } else {
-                    return this.data;
-                }
-            } else {
+        getDefaultValue: function (schema) {
+            let type = schema.type;
+            if (this.debug > 3) {
+                console.log(
+                    "editBySchema getDefaultValue:schema " +
+                        JSON.stringify(schema)
+                );
+            }
+            if (this.type === "object") {
                 let body = {};
-                for (let key in this.data) {
-                    if (this.propsEnabled[key]) {
-                        console.log(
-                            "editBySchema body,key" + JSON.stringify(key)
-                        );
-                        console.log(
-                            "editBySchema body,value" +
-                                JSON.stringify(this.data[key])
-                        );
-                        console.log(
-                            "editBySchema body,result" +
-                                JSON.stringify(body[key])
-                        );
-                        body[key] = JSON.parse(JSON.stringify(this.data[key]));
-                    }
+                for (let key in schema.properties) {
+                    // this.propsEnabled[key] = true;
+                    Vue.set(
+                        body,
+                        key,
+                        this.getDefaultValue(schema.properties[key])
+                    );
                 }
                 return body;
+            } else if (this.type === "array") {
+                return new Array();
+            } else if (this.type === "string") {
+                return new String();
+            } else if (type === "number" || type === "timestamp") {
+                return 0;
+            } else if (type === "timestring") {
+                return new Date(0).toISOString();
             }
         },
+        getObjBody: function () {
+            let body = {};
+            for (let key in this.data) {
+                if (this.propsEnabled[key]) {
+                    if (this.debug > 3) {
+                        console.log(
+                            "editBySchema getObjBody,key " + JSON.stringify(key)
+                        );
+                        console.log(
+                            "editBySchema getObjBody,value " +
+                                JSON.stringify(this.data[key])
+                        );
+                        if (this.debug > 4) {
+                            console.log(
+                                "editBySchema getObjBody,result " +
+                                    JSON.stringify(body[key])
+                            );
+                        }
+                    }
+                    body[key] = JSON.parse(JSON.stringify(this.data[key]));
+                } else {
+                    if (this.debug > 3) {
+                        console.log(
+                            "editBySchema getObjBody,ignored " +
+                                JSON.stringify(key)
+                        );
+                    }
+                }
+            }
+            return body;
+        },
+
+        getData: function () {
+            if (this.type !== "object") {
+                return this.data;
+            } else {
+                return this.getObjBody();
+            }
+        },
+
         transmit: function () {
-            console.log(
-                "editBySchema transmit,value" + JSON.stringify(this.getBody())
-            );
-            this.$emit("update", this.getBody());
+            let body = this.getData();
+            if (this.debug > 2) {
+                console.log(
+                    "editBySchema transmit,value " + JSON.stringify(body)
+                );
+            }
+            if (body !== undefined) {
+                this.$emit("update", body);
+            } else {
+                if (this.debug > 3) {
+                    console.log(
+                        "updateBySchema transmit:ignored for undefined"
+                    );
+                }
+            }
         }
     },
     computed: {

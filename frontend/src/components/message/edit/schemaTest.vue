@@ -2,6 +2,7 @@
     <edit-by-schema
         v-bind:title="'格式测试'"
         v-bind:schema="schema"
+        v-bind:debug="5"
         v-on:update="transmit"
     />
 </template>
