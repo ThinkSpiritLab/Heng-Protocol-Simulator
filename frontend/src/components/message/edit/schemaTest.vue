@@ -19,14 +19,32 @@ export default Vue.extend({
                     str: {
                         type: "string"
                     },
-                    arr: {
-                        type: "array",
-                        member: {
-                            type: "string",
-                        }
-                    },
                     num: {
                         type: "number"
+                    },
+                    timestamp: {
+                        type: "timestamp"
+                    },
+                    timestring: {
+                        type: "timestring"
+                    },
+                    strarr: {
+                        type: "array",
+                        member: {
+                            type: "string"
+                        }
+                    },
+                    numarr: {
+                        type: "array",
+                        member: { type: "number" }
+                    },
+                    timestamparr: {
+                        type: "array",
+                        member: { type: "timestamp" }
+                    },
+                    timestringarr: {
+                        type: "array",
+                        member: { type: "timestring" }
                     }
                 }
             }

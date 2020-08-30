@@ -7,11 +7,6 @@
                 v-bind:value="data"
                 v-on:input="event => updateAll(event.target.value)"
             />
-            <input
-                v-else-if="type == 'number'"
-                v-bind:value="data"
-                v-on:input="event => updateAll(parseInt(event.target.value))"
-            />
             <div v-else-if="type == 'array'" class="edit-column">
                 <div v-for="(obj, index) in data" v-bind:key="index">
                     <div class="edit-row">
@@ -58,8 +53,76 @@
                     </div>
                 </div>
             </div>
+            <div
+                v-else-if="
+                    this.type == 'number' ||
+                    this.type == 'timestamp' ||
+                    this.type == 'timestring'
+                "
+                class="edit-row no-border"
+            >
+                <input
+                    v-if="this.type == 'number' || this.type == 'timestamp'"
+                    v-bind:value="data"
+                    v-on:input="
+                        event => updateAll(parseInt(event.target.value))
+                    "
+                />
+                <input v-else v-bind:value="new Date(data).toISOString()" />
+                <div v-if="this.type == 'number'" class="edit-row no-border">
+                    <div
+                        v-for="step in (
+                    numbersteps
+                    )"
+                        v-bind:key="step"
+                    >
+                        <div
+                            v-on:click="updateAll(data + step)"
+                            class="tool-button"
+                        >
+                            +{{ step }}
+                        </div>
+                        <div
+                            v-on:click="updateAll(data - step)"
+                            class="tool-button"
+                        >
+                            -{{ step }}
+                        </div>
+                    </div>
+                </div>
+                <div
+                    v-if="this.type == 'timestamp' || this.type == 'timestring'"
+                    class="edit-row no-border"
+                >
+                    <div
+                        v-for="(step,name) in (timestep
+                    )"
+                        v-bind:key="step"
+                        class="edit-column"
+                    >
+                        <div
+                            v-on:click="updateAll(data + step)"
+                            class="tool-button"
+                        >
+                            +{{ name }}
+                        </div>
+                        <div
+                            v-on:click="updateAll(data - step)"
+                            class="tool-button"
+                        >
+                            -{{ name }}
+                        </div>
+                    </div>
+                </div>
+                <div
+                    v-if="this.type == 'timestamp' || this.type == 'timestring'"
+                    v-on:click="updateAll(Date.now())"
+                    class="tool-button"
+                >
+                    CurTime
+                </div>
+            </div>
             <div v-else class="edit-column">{{ type }}</div>
-            <!-- <div>{{ JSON.stringify(propsEnabled) }}</div> -->
         </div>
     </div>
 </template>
@@ -73,7 +136,15 @@ export default Vue.extend({
         return {
             propsEnabled: {},
             data: {},
-            next: {}
+            next: {},
+            numbersteps: [1, 5, 10, 50, 100],
+            timestep: {
+                "1h": 3600000,
+                "10min": 600000,
+                "1min": 60000,
+                "10s": 10000,
+                "1s": 1000
+            }
         };
     },
     mounted: function () {
@@ -88,10 +159,14 @@ export default Vue.extend({
             );
         } else if (this.type == "array") {
             this.data = new Array();
-            this.next = this.$refs.nextEdit.body;
+            this.next = this.$refs.nextEdit.getBody();
         } else if (this.type == "string") {
             this.data = new String();
-        } else if (this.type == "number") {
+        } else if (
+            this.type == "number" ||
+            this.type == "timestamp" ||
+            this.type == "timestring"
+        ) {
             this.data = 0;
         }
         if (this.value) {
@@ -119,33 +194,53 @@ export default Vue.extend({
         },
         update: function (key, val) {
             this.data[key] = val;
+            console.log("editBySchema update,key" + JSON.stringify(key));
+            console.log("editBySchema update,value" + JSON.stringify(val));
+            console.log(
+                "editBySchema update,result" + JSON.stringify(this.data[key])
+            );
             this.transmit();
         },
         updateAll: function (obj) {
             this.data = obj;
             this.transmit();
         },
-        transmit: function () {
-            console.log(
-                "editBySchema transmit,value" + JSON.stringify(this.body)
-            );
-            this.$emit("update", this.body);
-        }
-    },
-    computed: {
-        body: function () {
+        getBody: function () {
             if (this.type !== "object") {
-                return this.data;
+                if (this.type === "timestring") {
+                    return new Date(this.data).toISOString();
+                } else {
+                    return this.data;
+                }
             } else {
                 let body = {};
                 for (let key in this.data) {
                     if (this.propsEnabled[key]) {
+                        console.log(
+                            "editBySchema body,key" + JSON.stringify(key)
+                        );
+                        console.log(
+                            "editBySchema body,value" +
+                                JSON.stringify(this.data[key])
+                        );
+                        console.log(
+                            "editBySchema body,result" +
+                                JSON.stringify(body[key])
+                        );
                         body[key] = JSON.parse(JSON.stringify(this.data[key]));
                     }
                 }
                 return body;
             }
         },
+        transmit: function () {
+            console.log(
+                "editBySchema transmit,value" + JSON.stringify(this.getBody())
+            );
+            this.$emit("update", this.getBody());
+        }
+    },
+    computed: {
         type: function () {
             return this.schema.type;
         },
@@ -175,7 +270,7 @@ export default Vue.extend({
 }
 .edit-pannel {
     border: 0px;
-    border-left: 1px solid #767676;
+    /* border-left: 1px solid #767676; */
     border-radius: 10px;
     margin: 10px;
     min-width: 400px;
@@ -203,14 +298,16 @@ export default Vue.extend({
     justify-content: flex-start;
 }
 .edit-row > * {
-    margin: 10px;
+    margin: 2px;
     flex-grow: 1;
 }
 .edit-button {
     border: 1px solid #767676;
-    padding: 5px;
+    padding: 2px;
     border-radius: 2px;
-    margin: 5px;
+    /* height: 30px; */
+    margin: 2px;
+    /* size: 10px; */
     background: #efefef;
     word-break: keep-all;
     flex-grow: 0;
@@ -218,6 +315,9 @@ export default Vue.extend({
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+.no-border {
+    border: 0px;
 }
 .title {
     flex-grow: 0;
