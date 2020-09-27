@@ -90,7 +90,7 @@ import editJudgerInfoMessage from "./edit/editJudgerInfoMessage.vue";
 import editStatusReportMessage from "./edit/editStatusReportMessage.vue";
 import editStatusRequestMessage from "./edit/editStatusRequestMessage.vue";
 import editJudgeRequestMessage from "./edit/editJudgeRequestMessage/editJudgeRequestMessage.vue";
-import schemaTest from "./edit/schemaTest.vue";
+import schemaTest from "./edit/editBySchemaComponents/schemaTest.vue";
 export default Vue.extend({
     name: "sendpanel",
     props: ["connection", "send"],

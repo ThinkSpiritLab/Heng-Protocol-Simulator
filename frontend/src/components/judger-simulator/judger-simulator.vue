@@ -8,7 +8,7 @@
             v-on:click="activetab = tab"
         >{{ tab }}</button>-->
         <tabselect v-bind:tabs="tabs" v-bind:select="s => (activetab = s)" />
-        <div v-show="activetab === 'message'" class="tab">
+        <div v-show="activetab === 'scoketmessage'" class="tab">
             <tabselect
                 v-bind:tabs="messages.tabs"
                 v-bind:select="s => (messages.curtab = s)"
@@ -38,10 +38,20 @@
                 <a>端口</a>
                 <input v-model.number="port" placeholder="8080" />
             </p>
+            <edit-by-schema
+                :schema="{
+                    type: 'object',
+                    properties: {
+                        maxTaskCount: { type: 'number' },
+                        coreCount: { type: 'number' },
+                        name: { type: 'string' },
+                        software: { type: 'string' }
+                    }
+                }"
+            />
+            <httpSigTool />
             <button v-on:click="connect">连接</button>
-            <button v-on:click="connection.close()">
-                断开
-            </button>
+            <button v-on:click="connection.close()">断开</button>
             <p v-if="connection != undefined">{{ connection.readyState }}</p>
         </div>
     </div>
@@ -51,6 +61,8 @@ import Vue from "vue";
 import tabselect from "../tabselect.vue";
 import messages from "../message/messages.vue";
 import sendpanel from "../message/sendpanel.vue";
+import editBySchema from "../util/editBySchemaCore/editBySchema.vue";
+import httpSigTool from "../util/httpSigTool/httpSigTool.vue";
 export default Vue.extend({
     name: "judgersimulator",
     data: function () {
@@ -58,7 +70,7 @@ export default Vue.extend({
             connection: null,
             connected: false,
             activetab: "server",
-            tabs: ["server", "message"],
+            tabs: ["server", "scoketmessage"],
             server: "echo.websocket.org",
             port: 80,
             serverpublickey: "",
@@ -134,7 +146,9 @@ export default Vue.extend({
     components: {
         tabselect,
         messages,
-        sendpanel
+        sendpanel,
+        editBySchema,
+        httpSigTool
     }
 });
 </script>
