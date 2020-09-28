@@ -11,9 +11,8 @@
                         v-bind:debug="debug"
                         v-on:update="val => set(key, val)"
                     />
-                    <div v-show="!propsEnabled[key]"></div>
-                    <div class="edit-button" v-on:click="switchVisibility(key)">
-                        Switch
+                    <div class="edit-button" v-on:click="splice(key, 1)">
+                        Delete
                     </div>
                 </div>
             </div>
@@ -24,6 +23,7 @@
                     v-bind:debug="debug"
                     v-on:update="val => (next = val)"
                 />
+                <div class="edit-button" v-on:click="push(next)">Add</div>
             </div>
         </div>
         <div v-else>
@@ -53,8 +53,13 @@ export default Vue.extend({
         }
     },
     methods: {
-        switchVisibility: function (key) {
-            this.propsEnabled[key] = !this.propsEnabled[key];
+        splice: function (key, len) {
+            let res = this.data.splice(key, len);
+            this.transmit();
+            return res;
+        },
+        push: function (value) {
+            this.data.push(value);
             this.transmit();
         },
         set: function (key, value) {
