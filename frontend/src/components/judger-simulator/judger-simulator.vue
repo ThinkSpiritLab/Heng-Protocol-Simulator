@@ -49,6 +49,13 @@
                             <a>端口</a>
                             <input v-model.number="port" placeholder="8080" />
                         </p>
+                        <p>
+                            <a>Token</a>
+                            <input
+                                v-model.trim="token"
+                                placeholder="It's a Secret"
+                            />
+                        </p>
                     </div>
                     <div class="edit-area">
                         <div class="edit-pannel">
@@ -98,6 +105,7 @@ export default Vue.extend({
             tabs: ["server", "scoketmessage"],
             server: "echo.websocket.org",
             port: 80,
+            token: "",
             judger: { maxTaskCount: 4 },
             messages: {
                 curtab: "new",
