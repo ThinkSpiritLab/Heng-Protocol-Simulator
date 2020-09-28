@@ -12,26 +12,26 @@
             >
                 <button
                     v-on:click="updateTimeStamp(timestamp + step)"
-                    class="tool-button"
+                    class="edit-button"
                     v-bind:disabled="!isValid"
                 >
                     +{{ name }}
                 </button>
                 <button
                     v-on:click="updateTimeStamp(timestamp - step)"
-                    class="tool-button"
+                    class="edit-button"
                     v-bind:disabled="!isValid"
                 >
                     -{{ name }}
                 </button>
             </div>
         </div>
-        <div
+        <button
             v-on:click="updateAll(new Date().toISOString())"
-            class="tool-button"
+            class="edit-button"
         >
             CurTime
-        </div>
+        </button>
     </div>
 </template>
 

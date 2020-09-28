@@ -7,8 +7,8 @@
             v-bind:schema="schema"
             v-on:update="val => (param = val)"
         />
-        <div class="tool-button" v-on:click="pickNonce">pickNonce</div>
-        <div>{{ JSON.stringify(param) }}</div>
+        <button class="edit-button" v-on:click="pickNonce">pickNonce</button>
+        <!-- <div>{{ JSON.stringify(param) }}</div> -->
     </div>
 </template>
 
@@ -48,33 +48,3 @@ export default Vue.extend({
     components: { editBySchema }
 });
 </script>
-<style scoped>
-.edit-pannel {
-    border: 2px solid #aaa;
-    margin: 10px;
-    min-width: 400px;
-    /* height: 100%; */
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-start;
-}
-
-.edit-pannel > {
-    justify-content: center;
-}
-.tool-button {
-    border: 1px solid #767676;
-    padding: 5px;
-    border-radius: 2px;
-    margin: 5px;
-    background: #efefef;
-    word-break: keep-all;
-    flex-grow: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-</style>

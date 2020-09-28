@@ -70,36 +70,3 @@ export default Vue.extend({
     components: { ackmessage, /*verifyMessage,*/ GeneralMessage }
 });
 </script>
-
-<style>
-.message-pannel {
-    border: 2px solid #aaa;
-    margin: 5px;
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
-    border-radius: 5px;
-    padding: 10px;
-}
-.message-card {
-    flex-grow: 1;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    max-width: 100%;
-    margin: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-start;
-    word-break: break-all;
-}
-.raw-view-f {
-    border: 2px solid #aaa;
-    /* height: 100%; */
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
-    flex-grow: 1;
-    word-break: break-all;
-}
-</style>

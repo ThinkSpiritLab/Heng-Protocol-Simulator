@@ -40,32 +40,3 @@ export default Vue.extend({
     components: { verselect, basicmessage }
 });
 </script>
-<style scoped>
-.message-pannel {
-    border: 2px solid #aaa;
-    margin: 10px;
-    display: flex;
-    border-radius: 5px;
-
-    flex-direction: row;
-    align-items: stretch;
-    justify-content: center;
-}
-.msg-select {
-    border: 2px solid #aaa;
-    border-radius: 5px;
-    margin: 10px;
-}
-.msg-dis {
-    /* width: 70%; */
-    border: 2px solid #aaa;
-    border-radius: 5px;
-    margin: 10px;
-}
-.card {
-    border: 1px solid #ccc;
-    margin: 5px;
-    border-radius: 5px;
-    padding: 10px;
-}
-</style>

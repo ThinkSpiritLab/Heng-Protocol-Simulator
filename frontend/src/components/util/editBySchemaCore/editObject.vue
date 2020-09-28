@@ -14,9 +14,12 @@
                         v-on:update="val => set(key, val)"
                     />
                     <div v-show="!propsEnabled[key]"></div>
-                    <div class="edit-button" v-on:click="switchVisibility(key)">
+                    <button
+                        class="edit-button"
+                        v-on:click="switchVisibility(key)"
+                    >
                         Switch
-                    </div>
+                    </button>
                 </div>
             </div>
         </div>

@@ -225,16 +225,3 @@ export default Vue.extend({
 //window.crypto.subtle.encrypt({name:"RSA-OAEP"},, (new TextEncoder().encode("123")))
 </script>
 
-<style scoped>
-.tool-pannel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-.tool-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-</style>

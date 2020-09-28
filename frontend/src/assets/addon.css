@@ -1,0 +1,10 @@
+.no-border {
+    border: 0px;
+}
+.title {
+    flex-grow: 0;
+    word-break: keep-all;
+}
+.symbol {
+    flex-grow: 0;
+}

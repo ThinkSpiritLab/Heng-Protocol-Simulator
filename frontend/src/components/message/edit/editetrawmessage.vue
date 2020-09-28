@@ -25,11 +25,4 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
-.raw-edit {
-    /* height: 200px; */
-    resize: none;
-    /* width: 100%; */
-    flex-grow: 1;
-}
-</style>
+

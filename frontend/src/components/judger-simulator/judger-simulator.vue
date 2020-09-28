@@ -1,58 +1,83 @@
 <template>
     <div>
-        <h1>评测端模拟</h1>
-        <!-- <button
+        <div class="column grow">
+            <h1>评测端模拟</h1>
+            <!-- <button
             v-for="tab in tabs"
             v-bind:key="tab"
             v-bind:class="['tab-button', { active: activetab === tab }]"
             v-on:click="activetab = tab"
         >{{ tab }}</button>-->
-        <tabselect v-bind:tabs="tabs" v-bind:select="s => (activetab = s)" />
-        <div v-show="activetab === 'scoketmessage'" class="tab">
             <tabselect
-                v-bind:tabs="messages.tabs"
-                v-bind:select="s => (messages.curtab = s)"
+                v-bind:tabs="tabs"
+                v-bind:select="s => (activetab = s)"
             />
-            <div v-show="messages.curtab === 'new'">
-                <sendpanel
-                    v-bind:connection="connection"
-                    v-bind:send="msg => send(msg)"
-                />
+            <div v-show="activetab === 'scoketmessage'" class="tab">
+                <div class="edit-pannel">
+                    <tabselect
+                        v-bind:tabs="messages.tabs"
+                        v-bind:select="s => (messages.curtab = s)"
+                    />
+                    <div v-show="messages.curtab === 'new'">
+                        <sendpanel
+                            v-bind:connection="connection"
+                            v-bind:send="msg => send(msg)"
+                        />
+                    </div>
+                    <div v-show="messages.curtab === 'send'">
+                        <messages v-bind:messages="messages.send" />
+                        <!-- <p>{{ JSON.stringify(messages.send) }}</p> -->
+                    </div>
+                    <div v-show="messages.curtab === 'received'">
+                        <messages v-bind:messages="messages.received" />
+                        <!-- <p>{{ JSON.stringify(messages.received) }}</p> -->
+                    </div>
+                </div>
             </div>
-            <div v-show="messages.curtab === 'send'">
-                <messages v-bind:messages="messages.send" />
-                <!-- <p>{{ JSON.stringify(messages.send) }}</p> -->
+            <div v-show="activetab === 'server'" class="tab">
+                <div class="edit-pannel">
+                    <div class="edit-pannel">
+                        <p>服务器连接面板</p>
+                        <p>
+                            <a>服务器</a>
+                            <input
+                                v-model.trim="server"
+                                placeholder="0.0.0.0"
+                            />
+                        </p>
+                        <p>
+                            <a>端口</a>
+                            <input v-model.number="port" placeholder="8080" />
+                        </p>
+                    </div>
+                    <div class="edit-area">
+                        <div class="edit-pannel">
+                            <edit-by-schema
+                                v-bind:schema="{
+                                    type: 'object',
+                                    properties: {
+                                        maxTaskCount: { type: 'number' },
+                                        coreCount: { type: 'number' },
+                                        name: { type: 'string' },
+                                        software: { type: 'string' }
+                                    }
+                                }"
+                                v-bind:title="'注册参数'"
+                                v-bind:value="judger"
+                                v-on:update="val => (judger = val)"
+                            />
+                        </div>
+                        <httpSigTool />
+                    </div>
+                    <div class="edit-row">
+                        <button v-on:click="connect">连接</button>
+                        <button v-on:click="connection.close()">断开</button>
+                    </div>
+                    <p v-if="connection != undefined">
+                        {{ connection.readyState }}
+                    </p>
+                </div>
             </div>
-            <div v-show="messages.curtab === 'received'">
-                <messages v-bind:messages="messages.received" />
-                <!-- <p>{{ JSON.stringify(messages.received) }}</p> -->
-            </div>
-        </div>
-        <div v-show="activetab === 'server'" class="tab">
-            <p>服务器连接面板</p>
-            <p>
-                <a>服务器</a>
-                <input v-model.trim="server" placeholder="0.0.0.0" />
-            </p>
-            <p>
-                <a>端口</a>
-                <input v-model.number="port" placeholder="8080" />
-            </p>
-            <edit-by-schema
-                :schema="{
-                    type: 'object',
-                    properties: {
-                        maxTaskCount: { type: 'number' },
-                        coreCount: { type: 'number' },
-                        name: { type: 'string' },
-                        software: { type: 'string' }
-                    }
-                }"
-            />
-            <httpSigTool />
-            <button v-on:click="connect">连接</button>
-            <button v-on:click="connection.close()">断开</button>
-            <p v-if="connection != undefined">{{ connection.readyState }}</p>
         </div>
     </div>
 </template>
@@ -73,9 +98,7 @@ export default Vue.extend({
             tabs: ["server", "scoketmessage"],
             server: "echo.websocket.org",
             port: 80,
-            serverpublickey: "",
-            judgerprivatekey: "",
-            judgerkeynumber: "",
+            judger: { maxTaskCount: 4 },
             messages: {
                 curtab: "new",
                 tabs: ["new", "send", "received"],
@@ -152,5 +175,3 @@ export default Vue.extend({
     }
 });
 </script>
-
-<style scoped></style>

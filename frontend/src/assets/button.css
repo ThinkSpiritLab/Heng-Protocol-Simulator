@@ -1,0 +1,17 @@
+.button {
+    border: 1px solid #aaa;
+    /* border-radius: 50%; */
+    border-radius: 2px;
+    margin: 5px;
+    word-break: keep-all;
+    background: #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.send-btn {
+    width: 100%;
+    height: 50px;
+}
+

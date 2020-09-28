@@ -36,7 +36,7 @@
                         v-show="messagetype === 3"
                         v-on:update="updatebody"
                     /> -->
-                    <edit-judger-info-message
+                    <!-- <edit-judger-info-message
                         v-show="messagetype === 4"
                         v-on:send="sendmessage"
                         v-on:update="updatebody"
@@ -55,7 +55,7 @@
                         v-show="messagetype === 33"
                         v-on:send="sendmessage"
                         v-on:update="updatebody"
-                    />
+                    /> -->
                     <schema-test
                         v-show="messagetype === 128"
                         v-bind:title="'格式测试'"
@@ -86,10 +86,10 @@ import verselect from "../verselect.vue";
 import editRawMessage from "./edit/editetrawmessage.vue";
 // import editversionmessage from "./edit/editversionmesage.vue";
 // import editVerifyMessage from "./edit/editVerifyMessage.vue";
-import editJudgerInfoMessage from "./edit/editJudgerInfoMessage.vue";
-import editStatusReportMessage from "./edit/editStatusReportMessage.vue";
-import editStatusRequestMessage from "./edit/editStatusRequestMessage.vue";
-import editJudgeRequestMessage from "./edit/editJudgeRequestMessage/editJudgeRequestMessage.vue";
+// import editJudgerInfoMessage from "./edit/editJudgerInfoMessage.vue";
+// import editStatusReportMessage from "./edit/editStatusReportMessage.vue";
+// import editStatusRequestMessage from "./edit/editStatusRequestMessage.vue";
+// import editJudgeRequestMessage from "./edit/editJudgeRequestMessage/editJudgeRequestMessage.vue";
 import schemaTest from "./edit/editBySchemaComponents/schemaTest.vue";
 export default Vue.extend({
     name: "sendpanel",
@@ -161,121 +161,11 @@ export default Vue.extend({
         editRawMessage,
         // editversionmessage,
         // editVerifyMessage,
-        editJudgerInfoMessage,
-        editStatusReportMessage,
-        editStatusRequestMessage,
-        editJudgeRequestMessage,
+        // editJudgerInfoMessage,
+        // editStatusReportMessage,
+        // editStatusRequestMessage,
+        // editJudgeRequestMessage,
         schemaTest
     }
 });
 </script>
-<style>
-.pannel {
-    border: 2px solid #aaa;
-    border-radius: 5px;
-    padding: 10px;
-}
-.card {
-    border: 1px solid #aaa;
-    border-radius: 5px;
-    padding: 10px;
-}
-.edit-area {
-    /* max-width: 1000px; */
-    /* border: 2px solid #777; */
-    padding-left: 10px;
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
-    /* height: 500px; */
-}
-.side-pannel {
-    border: 2px solid #aaa;
-    margin: 10px;
-    max-width: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-}
-.edit-pannel {
-    border: 2px solid #aaa;
-    margin: 10px;
-    min-width: 400px;
-    /* height: 100%; */
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-start;
-}
-
-.edit-pannel > {
-    justify-content: center;
-}
-.raw-view {
-    border: 1px solid #aaa;
-    border-radius: 2px;
-    margin: 10px;
-    /* height: 100%; */
-    /* width: 25%; */
-    /* min-width: 400px; */
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    word-break: break-all;
-}
-.custom-edit {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-}
-.send-btn {
-    width: 100%;
-    height: 50px;
-}
-.save-btn {
-    /* width: 70%; */
-    height: 50px;
-}
-.tool-pannel {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-}
-.tool-column {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-}
-.tool-row {
-    border: 1px solid #ccc;
-    margin: 10px;
-    border-radius: 5px;
-    display: flex;
-    align-items: stretch;
-    justify-content: flex-start;
-}
-.tool-row > * {
-    margin: 10px;
-    flex-grow: 1;
-}
-.tool-button {
-    border: 1px solid #767676;
-    padding: 5px;
-    border-radius: 2px;
-    margin: 5px;
-    background: #efefef;
-    word-break: keep-all;
-    flex-grow: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-</style>
